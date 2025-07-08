@@ -163,7 +163,7 @@ def hough_circle_transform(edges, min_radius, max_radius, threshold=100):
             distance = np.sqrt((x - ex)**2 + (y - ey)**2)
             
             # Make non-maximum suppression less aggressive for close circles
-            if distance < max(r, er) * 0.5 and abs(r - er) < max(r, er) * 0.3:
+            if distance < max(r, er) * 0.5 and abs(r - er) < max(r, er) * 0.3 and (votes < float(threshold * (1.6))):
                 is_unique = False
                 break
         
@@ -179,7 +179,7 @@ def hough_circle_transform(edges, min_radius, max_radius, threshold=100):
     
     return filtered_circles
 
-def draw_circles(image, circles, color=(0, 0, 255), thickness=5):
+def draw_circles(image, circles, color=(0, 255, 0), thickness=3):
     """
     Draw detected circles on the image
     """
@@ -199,7 +199,7 @@ def draw_circles(image, circles, color=(0, 0, 255), thickness=5):
 
 def main():
     # Load the image
-    img_name = "bicicleta.jpg"
+    img_name = "circles.jpg"
     image_path = f"img/{img_name}"
     image = cv2.imread(image_path)
     
@@ -211,23 +211,38 @@ def main():
     
     # Apply edge detection without downscaling to maintain accuracy
     print("Applying edge detection...")
-    edges = canny_edge_detection(image, low_threshold=30, high_threshold=100)  # Lower thresholds for better edge detection
+    edges = canny_edge_detection(image, low_threshold=10, high_threshold=140)  # Lower thresholds for better edge detection
     
     # Parameters for circle detection
-    # circulos
-    # min_radius = 95
-    # max_radius = 105
-    # threshold = 10  # Lower threshold to catch all circles
+    #circulos
+    min_radius = 95
+    max_radius = 105
+    threshold = 10  
     
     # bicicleta
     # min_radius = 160
     # max_radius = 170
-    # threshold = 13  # Lower threshold to catch all circles
+    # threshold = 13  
     
     #roda gigante
-    min_radius = 160
-    max_radius = 170
-    threshold = 13  # Lower threshold to catch all circles
+    # min_radius = 160
+    # max_radius = 180
+    # threshold = 15 
+    
+    #saturno
+    # min_radius = 200
+    # max_radius = 250
+    # threshold = 10  
+    
+    # dunots-gpt
+    # min_radius = 50
+    # max_radius = 160
+    # threshold = 19
+    
+     #orange tree
+    # min_radius = 45
+    # max_radius = 60
+    # threshold = 18
     
     print(f"Detecting circles with radius {min_radius}-{max_radius}px...")
     
